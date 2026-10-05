@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Заметки</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body data-app="notes">
+<header id="shell-header"></header>
+<main>
+  <div class="app-title">
+    <h1>Заметки</h1>
+    <p>Текст хранится только в памяти вкладки.</p>
+  </div>
+  <section class="card">
+    <h2>Черновик</h2>
+    <textarea id="text" placeholder="Напишите что-нибудь, уйдите в другое приложение и вернитесь через переключатель."></textarea>
+    <p class="hint" id="count">0 симв.</p>
+  </section>
+  <div id="shell-panels"></div>
+</main>
+<script src="../shared/shell.js"></script>
+<script>
+const text = document.getElementById('text');
+const count = document.getElementById('count');
+text.addEventListener('input', () => {
+  count.textContent = `${text.value.length} симв.`;
+});
+</script>
+</body>
+</html>

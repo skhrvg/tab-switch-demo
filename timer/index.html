@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Таймер</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body data-app="timer">
+<header id="shell-header"></header>
+<main>
+  <div class="app-title">
+    <h1>Таймер</h1>
+    <p>Запустите и уйдите — он продолжит идти в фоне.</p>
+  </div>
+  <section class="card">
+    <h2>Секундомер</h2>
+    <div class="big" id="value">00:00.0</div>
+    <div class="row">
+      <button type="button" id="toggle">Старт</button>
+      <button type="button" class="ghost" id="reset">Сбросить</button>
+    </div>
+  </section>
+  <div id="shell-panels"></div>
+</main>
+<script src="../shared/shell.js"></script>
+<script>
+// Время считается от метки запуска, поэтому замедление таймеров в фоне не мешает.
+let startedAt = null;
+let elapsed = 0;
+const out = document.getElementById('value');
+const toggle = document.getElementById('toggle');
+
+function render() {
+  const total = elapsed + (startedAt ? Date.now() - startedAt : 0);
+  const minutes = Math.floor(total / 60000);
+  const seconds = Math.floor(total / 1000) % 60;
+  const tenths = Math.floor(total / 100) % 10;
+  out.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${tenths}`;
+}
+
+toggle.addEventListener('click', () => {
+  if (startedAt) {
+    elapsed += Date.now() - startedAt;
+    startedAt = null;
+  } else {
+    startedAt = Date.now();
+  }
+  toggle.textContent = startedAt ? 'Пауза' : 'Старт';
+  render();
+});
+document.getElementById('reset').addEventListener('click', () => {
+  startedAt = null;
+  elapsed = 0;
+  toggle.textContent = 'Старт';
+  render();
+});
+setInterval(render, 100);
+document.addEventListener('visibilitychange', render);
+</script>
+</body>
+</html>

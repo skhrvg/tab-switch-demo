@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дела</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body data-app="todo">
+<header id="shell-header"></header>
+<main>
+  <div class="app-title">
+    <h1>Дела</h1>
+    <p>Список живёт, пока жива вкладка.</p>
+  </div>
+  <section class="card">
+    <h2>Список</h2>
+    <form class="row" id="form">
+      <input type="text" id="input" placeholder="Новое дело" aria-label="Новое дело" style="flex:1; min-width:0">
+      <button type="submit">Добавить</button>
+    </form>
+    <ul class="todo" id="list"></ul>
+    <p class="hint" id="empty">Пока ничего нет.</p>
+  </section>
+  <div id="shell-panels"></div>
+</main>
+<script src="../shared/shell.js"></script>
+<script>
+const form = document.getElementById('form');
+const input = document.getElementById('input');
+const list = document.getElementById('list');
+const empty = document.getElementById('empty');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const title = input.value.trim();
+  if (!title) return;
+  const item = document.createElement('li');
+  const label = document.createElement('label');
+  const box = document.createElement('input');
+  const text = document.createElement('span');
+  box.type = 'checkbox';
+  text.textContent = title;
+  label.append(box, text);
+  item.append(label);
+  list.append(item);
+  empty.hidden = true;
+  input.value = '';
+});
+</script>
+</body>
+</html>

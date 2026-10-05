@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Счётчик</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body data-app="counter">
+<header id="shell-header"></header>
+<main>
+  <div class="app-title">
+    <h1>Счётчик</h1>
+    <p>Значение сбросится только при перезагрузке вкладки.</p>
+  </div>
+  <section class="card">
+    <h2>Нажатий</h2>
+    <div class="big" id="value">0</div>
+    <div class="row">
+      <button type="button" id="minus">− 1</button>
+      <button type="button" id="plus">+ 1</button>
+      <button type="button" class="ghost" id="reset">Сбросить</button>
+    </div>
+  </section>
+  <div id="shell-panels"></div>
+</main>
+<script src="../shared/shell.js"></script>
+<script>
+let value = 0;
+const out = document.getElementById('value');
+const set = (next) => {
+  value = next;
+  out.textContent = value;
+};
+document.getElementById('plus').addEventListener('click', () => set(value + 1));
+document.getElementById('minus').addEventListener('click', () => set(value - 1));
+document.getElementById('reset').addEventListener('click', () => set(0));
+</script>
+</body>
+</html>

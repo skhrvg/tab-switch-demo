@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Переключение вкладок — демо</title>
+<link rel="stylesheet" href="shared/style.css">
+</head>
+<body data-app="home">
+<header id="shell-header"></header>
+<main>
+  <h1>Переключение между приложениями без дублей вкладок</h1>
+  <p class="lead">Пять приложений на одном домене. Переключатель открывает приложение в новой вкладке, а если его вкладка уже есть — переходит на неё, не перезагружая.</p>
+
+  <div class="tiles" id="shell-tiles"></div>
+
+  <section class="card">
+    <h2>Что проверить</h2>
+    <ol class="steps">
+      <li><b>Возврат без перезагрузки.</b> Откройте «Заметки», напишите текст, перейдите в «Счётчик» и вернитесь через переключатель. Текст на месте, время загрузки в карточке «Эта вкладка» прежнее.</li>
+      <li><b>Закрытая вкладка.</b> Закройте вкладку приложения и перейдите в него снова — откроется новая.</li>
+      <li><b>Независимая вкладка.</b> Скопируйте адрес приложения и откройте его вручную в новой вкладке. В переключателе появится пунктирная отметка «открыто отдельно», а переход создаст ещё одну вкладку: искать вкладки по имени браузер разрешает только среди связанных.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Как это устроено</h2>
+    <pre><code>// при загрузке каждого приложения
+window.name = 'tabdemo-notes';
+
+// переход — только из обработчика клика
+function switchTo(name, url) {
+  const tab = window.open('', name);        // найденная вкладка не перезагружается
+  if (tab.location.href === 'about:blank') {
+    tab.location.href = url;                // вкладки не было — загружаем приложение
+  }
+  tab.focus();
+}</code></pre>
+    <p class="hint">Полная версия с обработкой блокировщика всплывающих окон — в <code>shared/shell.js</code>.</p>
+  </section>
+
+  <div id="shell-panels"></div>
+</main>
+<script src="shared/shell.js"></script>
+</body>
+</html>
